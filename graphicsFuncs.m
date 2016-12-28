@@ -164,47 +164,44 @@ fDateListPlot[data_, legends_,imageSize_,plotTitle_,labels_]:=Module[{size,graph
 (*Pie chart*)
 
 
-(* ::Input:: *)
-(*fBuildPieChart[list_, legends_, title_,imageSize_]:=Module[{sumValue,percentage,graph},*)
-(*	sumValue = total[list];*)
-(*	percentage = Percentage/@(Round[#,0.001]&/@(N/@list/total[list]));*)
-(*	graph =PieChart[list,ChartLabels->percentage,ChartLegends->legends,PlotLabel->title,LabelStyle->{12,Bold,Black},ImageSize->imageSize];*)
-(*	graph	*)
-(*]*)
+fBuildPieChart[list_, legends_, title_,imageSize_]:=Module[{sumValue,percentage,graph},
+	sumValue = total[list];
+	percentage = Percentage/@(Round[#,0.001]&/@(N/@list/total[list]));
+	graph =PieChart[list,ChartLabels->percentage,ChartLegends->legends,PlotLabel->title,LabelStyle->{12,Bold,Black},ImageSize->imageSize];
+	graph	
+]
 
 
 (* ::Section:: *)
 (*Histogram*)
 
 
-(* ::Input:: *)
-(*(*fHistographData: [List<numeric>,List<numeric>] \[Rule] List<numeric>*)*)
-(*fHistographData[data_,range_]:= Module[*)
-(*{tmp,f1,f2},*)
-(*f1[x_]:=If[x>= range[[2]],range[[2]]-range[[3]],x];*)
-(*f2[x_]:=If[x< range[[1]],range[[1]],x];*)
-(*tmp = f1/@data ;*)
-(*tmp = f2/@tmp;*)
-(*tmp *)
-(*]*)
+ (*fHistographData: [List<numeric>,List<numeric>] \[Rule] List<numeric>*)
+fHistographData[data_,range_]:= Module[
+{tmp,f1,f2},
+f1[x_]:=If[x>= range[[2]],range[[2]]-range[[3]],x];
+f2[x_]:=If[x< range[[1]],range[[1]],x];
+tmp = f1/@data ;
+tmp = f2/@tmp;
+tmp 
+]
 
 
-(* ::Input:: *)
-(*fBuildHistograms[data_,interval_,title_,labels_,legends_,size_]:=Module[*)
-(*{histogramData,histoMin,histoMax,histoStepSize,graph,legendList},*)
-(*histoMin  =interval[[1]];*)
-(*histoMax  =  interval[[2]];*)
-(*histoStepSize  = (histoMax - histoMin )/20;*)
-(*histogramData=fHistographData[#,{histoMin,histoMax,histoStepSize}]&/@ data;*)
-(*legendList="\nn: "<>ToString[Length[#]]    <> "\n\[Mu]: "<>ToString[Average[#]]<>"\n\[Sigma]: "<>ToString[StandardDev[#]]&/@data;*)
-(**)
-(*legendList= #[[1]]<>#[[2]]&/@Thread[List[legends,legendList]];*)
-(**)
-(*graph  = Histogram[histogramData,{histoMin,histoMax,histoStepSize},PlotLabel->Style[title ,FontSize->12, Bold],ChartLegends->legendList, LabelStyle->{Bold,Black,FontSize->12},Frame -> True, FrameLabel->labels,ImageSize->size];*)
-(**)
-(*graph*)
-(**)
-(*]*)
+fBuildHistograms[data_,interval_,title_,labels_,legends_,size_]:=Module[
+{histogramData,histoMin,histoMax,histoStepSize,graph,legendList},
+histoMin  =interval[[1]];
+histoMax  =  interval[[2]];
+histoStepSize  = (histoMax - histoMin )/20;
+histogramData=fHistographData[#,{histoMin,histoMax,histoStepSize}]&/@ data;
+legendList="\nn: "<>ToString[Length[#]]    <> "\n\[Mu]: "<>ToString[Average[#]]<>"\n\[Sigma]: "<>ToString[StandardDev[#]]&/@data;
+
+legendList= #[[1]]<>#[[2]]&/@Thread[List[legends,legendList]];
+
+graph  = Histogram[histogramData,{histoMin,histoMax,histoStepSize},PlotLabel->Style[title ,FontSize->12, Bold],ChartLegends->legendList, LabelStyle->{Bold,Black,FontSize->12},Frame -> True, FrameLabel->labels,ImageSize->size];
+
+graph
+
+]
 
 
 (* ::Section:: *)
